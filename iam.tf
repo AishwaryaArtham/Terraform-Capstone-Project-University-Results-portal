@@ -32,3 +32,30 @@ resource "aws_iam_instance_profile" "wordpress" {
   name = "Terraform-WordPress-Instance-Profile"
   role = aws_iam_role.wordpress_ec2.name
 }
+
+resource "aws_iam_role_policy" "wordpress_secrets" {
+  name = "Terraform-WordPress-Secrets-Access"
+  role = aws_iam_role.wordpress_ec2.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "secretsmanager:GetSecretValue",
+          "secretsmanager:DescribeSecret"
+        ]
+        Resource = aws_secretsmanager_secret.wordpress_db.arn
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "secretsmanager:GetSecretValue",
+          "secretsmanager:DescribeSecret"
+        ]
+        Resource = aws_db_instance.wordpress.master_user_secret[0].secret_arn
+      }
+    ]
+  })
+}
