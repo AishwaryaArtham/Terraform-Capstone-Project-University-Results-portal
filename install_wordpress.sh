@@ -26,6 +26,16 @@ dnf install -y \
   wget \
   tar
 
+# Verify AWS CLI is available
+echo "Checking AWS CLI installation..."
+
+if ! command -v aws >/dev/null 2>&1; then
+    echo "ERROR: AWS CLI is not installed."
+    exit 1
+fi
+
+aws --version
+
 # Start web services
 systemctl enable --now httpd
 systemctl enable --now php-fpm
@@ -65,7 +75,7 @@ echo "Preparing WordPress database initialization..."
 echo "Downloading WordPress initialization script..."
 
 curl -fsSL \
-  "https://raw.githubusercontent.com/AishwaryaArtham/Terraform-Capstone-Project-University-Results-portal/main/initialize_wordpress.py" \
+  https://raw.githubusercontent.com/AishwaryaArtham/Terraform-Capstone-Project-University-Results-portal/941ec2b00459aeae9873042317b7c1423563be7e/initialize_wordpress.py \
   -o /tmp/initialize_wordpress.py
 
 chmod 600 /tmp/initialize_wordpress.py
