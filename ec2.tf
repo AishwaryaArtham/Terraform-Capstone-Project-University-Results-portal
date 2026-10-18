@@ -5,8 +5,11 @@ data "aws_ssm_parameter" "amazon_linux_2023" {
 
 # Private EC2 instance for WordPress
 resource "aws_instance" "wordpress" {
-  ami           = data.aws_ssm_parameter.amazon_linux_2023.value
-  instance_type = "t3.micro"
+
+  user_data                   = file("${path.module}/install_wordpress.sh")
+  user_data_replace_on_change = true
+  ami                         = data.aws_ssm_parameter.amazon_linux_2023.value
+  instance_type               = "t3.micro"
 
   subnet_id = aws_subnet.private_app_a.id
 
