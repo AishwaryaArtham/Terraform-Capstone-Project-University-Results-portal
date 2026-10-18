@@ -351,7 +351,7 @@ def get_or_create_admin_credentials():
             "--secret-id", admin_secret,
             "--secret-string", "file:///dev/stdin",
             "--region", REGION,
-            "--output", "none",
+            "--output", "json",
         ],
         input=json.dumps(credentials),
         text=True,
@@ -361,8 +361,47 @@ def get_or_create_admin_credentials():
     print("Administrator credentials stored successfully.")
     return credentials
 
+def synchronize_existing_admin(credentials):
+    """Reset the admin password only if it differs from the stored secret."""
+
+    username = credentials["username"]
+
+    php_code = """
+    $username = getenv('WP_ADMIN_USERNAME');
+    $password = stream_get_contents(STDIN);
+    $password = rtrim($password, "\\r\\n");
+
+    $user = get_user_by('login', $username);
+
+    if (!$user || !in_array('administrator', $user->roles, true)) {
+        fwrite(STDERR, "Expected administrator account not found.\\n");
+        exit(1);
+    }
+
+    if (wp_check_password($password, $user->user_pass, $user->ID)) {
+        echo "Administrator credentials already synchronized.\\n";
+    } else {
+        wp_set_password($password, $user->ID);
+        echo "Administrator password synchronized.\\n";
+    }
+    """
+
+    subprocess.run(
+        [
+            "wp", "eval", php_code,
+            "--path=/var/www/html",
+            "--allow-root",
+        ],
+        input=credentials["password"] + "\n",
+        text=True,
+        check=True,
+        env={
+            **os.environ,
+            "WP_ADMIN_USERNAME": username,
+        },
+    )
 def install_wordpress(site_url):
-    """Install WordPress with credentials stored in Secrets Manager."""
+    """Install WordPress or verify an existing installation."""
 
     check = subprocess.run(
         [
@@ -375,7 +414,13 @@ def install_wordpress(site_url):
     )
 
     if check.returncode == 0:
-        print("WordPress is already installed. Skipping.")
+        print("WordPress is already installed.")
+
+        credentials = get_or_create_admin_credentials()
+
+        synchronize_existing_admin(credentials)
+
+        print("Existing WordPress installation verified.")
         return
 
     credentials = get_or_create_admin_credentials()
