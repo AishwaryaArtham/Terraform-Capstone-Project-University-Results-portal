@@ -75,7 +75,7 @@ echo "Preparing WordPress database initialization..."
 echo "Downloading WordPress initialization script..."
 
 curl -fsSL \
-  https://raw.githubusercontent.com/AishwaryaArtham/Terraform-Capstone-Project-University-Results-portal/941ec2b00459aeae9873042317b7c1423563be7e/initialize_wordpress.py \
+  https://raw.githubusercontent.com/AishwaryaArtham/Terraform-Capstone-Project-University-Results-portal/b3213356709fd7c0d309de842dd0291d9daa0e27/initialize_wordpress.py \
   -o /tmp/initialize_wordpress.py
 
 chmod 600 /tmp/initialize_wordpress.py
