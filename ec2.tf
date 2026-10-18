@@ -6,7 +6,9 @@ data "aws_ssm_parameter" "amazon_linux_2023" {
 # Private EC2 instance for WordPress
 resource "aws_instance" "wordpress" {
 
-  user_data                   = file("${path.module}/install_wordpress.sh")
+  user_data = templatefile("${path.module}/install_wordpress.sh", {
+    wordpress_url = "http://${aws_lb.wordpress.dns_name}"
+  })
   user_data_replace_on_change = true
   ami                         = data.aws_ssm_parameter.amazon_linux_2023.value
   instance_type               = "t3.micro"
@@ -31,4 +33,10 @@ resource "aws_instance" "wordpress" {
     Name    = "Terraform-WordPress-EC2"
     Project = var.project_name
   }
+
+  depends_on = [
+    aws_db_instance.wordpress,
+    aws_secretsmanager_secret.wordpress_db,
+    aws_iam_role_policy.wordpress_secrets
+  ]
 }

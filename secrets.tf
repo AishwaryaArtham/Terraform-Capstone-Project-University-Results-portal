@@ -8,3 +8,8 @@ resource "aws_secretsmanager_secret" "wordpress_db" {
     Project = var.project_name
   }
 }
+
+resource "aws_secretsmanager_secret" "wordpress_admin" {
+  name                    = "terraform-wordpress-admin-credentials"
+  recovery_window_in_days = 0
+}
