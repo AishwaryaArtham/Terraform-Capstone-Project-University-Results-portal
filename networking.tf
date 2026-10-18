@@ -139,10 +139,19 @@ resource "aws_route_table_association" "private_app_b" {
 # Private database subnets
 resource "aws_route_table_association" "private_db_a" {
   subnet_id      = aws_subnet.private_db_a.id
-  route_table_id = aws_route_table.private.id
+  route_table_id = aws_route_table.private_db.id
 }
 
 resource "aws_route_table_association" "private_db_b" {
   subnet_id      = aws_subnet.private_db_b.id
-  route_table_id = aws_route_table.private.id
+  route_table_id = aws_route_table.private_db.id
+}
+
+# Dedicated route table for private database subnets
+resource "aws_route_table" "private_db" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "Terraform-Private-DB-RT"
+  }
 }
