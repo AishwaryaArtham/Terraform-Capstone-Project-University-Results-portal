@@ -150,7 +150,7 @@ def store_app_password(app_password):
             "--secret-id", APP_SECRET,
             "--secret-string", "file:///dev/stdin",
             "--region", REGION,
-            "--output", "none",
+            "--output", "json",
         ],
         input=app_password,
         text=True,
