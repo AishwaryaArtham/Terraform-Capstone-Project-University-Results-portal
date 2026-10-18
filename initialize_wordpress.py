@@ -416,21 +416,22 @@ if __name__ == "__main__":
 
     print("RDS master credentials retrieved successfully.")
     app_password, is_new_password = retry(
-    get_or_create_app_password,
-    "WordPress application secret retrieval"
+        get_or_create_app_password,
+        "WordPress application secret retrieval"
     )
 
     if is_new_password:
         store_app_password(app_password)
+
     retry(
-    lambda: initialize_database(
-        endpoint,
-        master_username,
-        master_password,
-        app_password
-    ),
-    "WordPress database initialization"
-)
+        lambda: initialize_database(
+            endpoint,
+            master_username,
+            master_password,
+            app_password
+        ),
+        "WordPress database initialization"
+    )
 
     configure_wordpress(endpoint, app_password)
 
@@ -442,9 +443,3 @@ if __name__ == "__main__":
     install_wordpress(site_url)
 
     print("WordPress initialization completed successfully.")
-
-    print("Database initialization completed.")
-
-    print("WordPress database and configuration initialization completed.")
-
-    print("Database initialization and secret storage completed.")

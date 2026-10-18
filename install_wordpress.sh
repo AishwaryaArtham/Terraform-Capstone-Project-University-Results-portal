@@ -75,11 +75,3 @@ WORDPRESS_URL='${wordpress_url}' python3 /tmp/initialize_wordpress.py
 rm -f /tmp/initialize_wordpress.py
 
 echo "WordPress initialization completed."
-
-chmod 600 /tmp/initialize_wordpress.py
-
-WORDPRESS_URL='${wordpress_url}' python3 /tmp/initialize_wordpress.py
-
-rm -f /tmp/initialize_wordpress.py
-
-echo "WordPress database initialization completed."
