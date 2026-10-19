@@ -3,6 +3,8 @@
 *.tfstate
 *.tfstate.*
 *.tfplan
+tfplan
+tfplan.*
 crash.log
 crash.*.log
 
@@ -40,3 +42,8 @@ wordpress-plugin/university-results/composer.lock
 .phpunit.result.cache
 dist/
 local-dev/access-codes.csv
+
+# Generated student access codes and temporary secrets
+*access-codes*.csv
+*access-codes*.json
+*.secret.json

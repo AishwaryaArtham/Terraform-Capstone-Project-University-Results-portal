@@ -65,6 +65,7 @@ resource "aws_iam_role_policy" "wordpress_secrets" {
     Statement = [
 
       # Allow EC2 to read and update WordPress secrets
+      # Allow EC2 to read and update WordPress secrets
       {
         Effect = "Allow"
 
@@ -78,6 +79,19 @@ resource "aws_iam_role_policy" "wordpress_secrets" {
           aws_secretsmanager_secret.wordpress_db.arn,
           aws_secretsmanager_secret.wordpress_admin.arn
         ]
+      },
+
+      # Allow EC2 to manage synthetic student access codes
+      {
+        Effect = "Allow"
+
+        Action = [
+          "secretsmanager:PutSecretValue",
+          "secretsmanager:GetSecretValue",
+          "secretsmanager:DescribeSecret"
+        ]
+
+        Resource = aws_secretsmanager_secret.student_access_codes.arn
       },
 
       # Allow EC2 to retrieve RDS master credentials

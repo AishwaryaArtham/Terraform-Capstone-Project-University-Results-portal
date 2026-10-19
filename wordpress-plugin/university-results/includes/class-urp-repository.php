@@ -112,18 +112,25 @@ final class URP_Repository {
 	}
 
 	public static function set_access_code_hash( int $id, ?string $hash ): void {
-		global $wpdb;
-		$wpdb->update(
-			URP_Installer::students_table(),
-			array(
-				'access_code_hash' => $hash,
-				'updated_at'       => current_time( 'mysql', true ),
-			),
-			array( 'id' => $id ),
-			array( '%s', '%s' ),
-			array( '%d' )
-		);
-	}
+    global $wpdb;
+
+    $result = $wpdb->update(
+        URP_Installer::students_table(),
+        array(
+            'access_code_hash' => $hash,
+            'updated_at'       => current_time( 'mysql', true ),
+        ),
+        array( 'id' => $id ),
+        array( '%s', '%s' ),
+        array( '%d' )
+    );
+
+    if ( false === $result ) {
+        throw new RuntimeException(
+            'Failed to update student access code hash.'
+        );
+    }
+}
 
 	/** @return array<int,array{id:string,reg_no:string,full_name:string}> */
 	public static function students_for_codes( bool $only_missing ): array {
