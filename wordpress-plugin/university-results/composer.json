@@ -1,0 +1,14 @@
+{
+    "name": "aws-restart-capstone/university-results",
+    "description": "University Results Portal WordPress plugin (development tooling only; the plugin has no runtime dependencies).",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "require-dev": {
+        "phpunit/phpunit": "^11.5"
+    },
+    "config": {
+        "platform": {
+            "php": "8.2"
+        }
+    }
+}

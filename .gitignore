@@ -30,3 +30,13 @@ terraform.rc
 .DS_Store
 .vscode/
 .idea/
+
+# Local Docker development (University Results Portal plugin)
+local-dev/.env
+!local-dev/.env.example
+wordpress-plugin/university-results/vendor/
+wordpress-plugin/university-results/composer.lock
+.phpunit.cache/
+.phpunit.result.cache
+dist/
+local-dev/access-codes.csv

@@ -1,0 +1,8 @@
+reg_no,term,subject_code,subject_name,marks,max_marks
+UNI2026001,2026-S1,MA101,Engineering Mathematics I,95,100
+UNI9999999,2026-S1,MA101,Engineering Mathematics I,70,100
+UNI2026002,2026-S1,PH101,Engineering Physics,105,100
+UNI2026003,2026 S1,EE101,Basic Electrical Engineering,60,100
+UNI2026004,2026-S1,ME101,,72,100
+UNI2026005,2026-S1,PH101,Engineering Physics,abc,100
+UNI2026001,2026-S1,MA101,Engineering Mathematics I,96,100

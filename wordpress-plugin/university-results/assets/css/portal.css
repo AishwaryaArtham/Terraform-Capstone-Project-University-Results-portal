@@ -1,0 +1,65 @@
+.urp-portal {
+	max-width: 720px;
+}
+
+.urp-portal label {
+	display: block;
+	font-weight: 600;
+	margin-bottom: 4px;
+}
+
+.urp-portal input[type="text"],
+.urp-portal input[type="password"] {
+	width: 100%;
+	max-width: 320px;
+	padding: 8px;
+	font-size: 1rem;
+	text-transform: uppercase;
+}
+
+.urp-portal small {
+	display: block;
+	opacity: 0.75;
+}
+
+.urp-portal .urp-message {
+	padding: 10px 14px;
+	border-left: 4px solid #2271b1;
+	background: rgba(34, 113, 177, 0.08);
+}
+
+.urp-portal .urp-message-error {
+	border-left-color: #b32d2e;
+	background: rgba(179, 45, 46, 0.08);
+}
+
+.urp-portal .urp-student span {
+	display: inline-block;
+	margin-right: 16px;
+}
+
+.urp-portal .urp-table-wrap {
+	overflow-x: auto;
+}
+
+.urp-portal table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.urp-portal th,
+.urp-portal td {
+	text-align: left;
+	padding: 6px 8px;
+	border-bottom: 1px solid rgba(128, 128, 128, 0.3);
+}
+
+.urp-portal .urp-pass {
+	color: #00703c;
+	font-weight: 600;
+}
+
+.urp-portal .urp-fail {
+	color: #b32d2e;
+	font-weight: 600;
+}
