@@ -89,7 +89,7 @@ echo "WordPress initialization completed."
 
 echo "Installing University Results Portal plugin..."
 
-URP_COMMIT="e00df129c8c3afecf36250ace445f9ab5bd7498d"
+URP_COMMIT="8c512b66c3cc8a20ceee266ddd53d5188a092250"
 URP_DIR=/var/www/html/wp-content/plugins/university-results
 URP_TMP=$(mktemp -d /tmp/urp-install.XXXXXX)
 
@@ -117,10 +117,34 @@ chown -R apache:apache "$URP_DIR"
 find "$URP_DIR" -type d -exec chmod 755 {} \;
 find "$URP_DIR" -type f -exec chmod 644 {} \;
 
+echo "Preparing University Results Portal demo data..."
+
+install -d -m 755 /opt/university-results/sample-data
+
+install -m 644 \
+  "$URP_TMP/source/sample-data/students.csv" \
+  /opt/university-results/sample-data/students.csv
+
+install -m 644 \
+  "$URP_TMP/source/sample-data/results.csv" \
+  /opt/university-results/sample-data/results.csv
+
+install -m 755 \
+  "$URP_TMP/source/initialize_demo_data.sh" \
+  /opt/university-results/initialize_demo_data.sh
+
+echo "Demo initialization files prepared."
+
 rm -rf "$URP_TMP"
 
 sudo -u apache wp plugin activate university-results \
   --path=/var/www/html
 
 echo "University Results Portal plugin installed successfully."
+
+echo "Initializing University Results Portal demo data..."
+
+/opt/university-results/initialize_demo_data.sh
+
+echo "University Results Portal demo data initialized successfully."
 
