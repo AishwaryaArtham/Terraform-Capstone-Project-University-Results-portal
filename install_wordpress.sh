@@ -85,3 +85,42 @@ WORDPRESS_URL='${wordpress_url}' python3 /tmp/initialize_wordpress.py
 rm -f /tmp/initialize_wordpress.py
 
 echo "WordPress initialization completed."
+
+
+echo "Installing University Results Portal plugin..."
+
+URP_COMMIT="e00df129c8c3afecf36250ace445f9ab5bd7498d"
+URP_DIR=/var/www/html/wp-content/plugins/university-results
+URP_TMP=$(mktemp -d /tmp/urp-install.XXXXXX)
+
+curl -fL \
+  "https://codeload.github.com/AishwaryaArtham/Terraform-Capstone-Project-University-Results-portal/tar.gz/$${URP_COMMIT}" \
+  -o "$URP_TMP/source.tar.gz"
+
+mkdir -p "$URP_TMP/source"
+tar -xzf "$URP_TMP/source.tar.gz" \
+  -C "$URP_TMP/source" \
+  --strip-components=1
+
+test -f "$URP_TMP/source/wordpress-plugin/university-results/university-results.php"
+
+cp -a \
+  "$URP_TMP/source/wordpress-plugin/university-results" \
+  /var/www/html/wp-content/plugins/
+
+rm -rf \
+  "$URP_DIR/tests" \
+  "$URP_DIR/composer.json" \
+  "$URP_DIR/phpunit.xml.dist"
+
+chown -R apache:apache "$URP_DIR"
+find "$URP_DIR" -type d -exec chmod 755 {} \;
+find "$URP_DIR" -type f -exec chmod 644 {} \;
+
+rm -rf "$URP_TMP"
+
+sudo -u apache wp plugin activate university-results \
+  --path=/var/www/html
+
+echo "University Results Portal plugin installed successfully."
+
