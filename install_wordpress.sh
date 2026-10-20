@@ -40,6 +40,11 @@ aws --version
 systemctl enable --now httpd
 systemctl enable --now php-fpm
 
+# Allow Apache to honor WordPress rewrite rules in .htaccess.
+sed -i '/<Directory "\/var\/www\/html">/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/httpd/conf/httpd.conf
+apachectl configtest
+systemctl restart httpd
+
 # Download and install WordPress
 if [ ! -f /var/www/html/wp-load.php ]; then
   cd /tmp
@@ -86,10 +91,31 @@ rm -f /tmp/initialize_wordpress.py
 
 echo "WordPress initialization completed."
 
+# Configure friendly WordPress URLs and Apache rewrite rules.
+cat > /var/www/html/.htaccess <<'HTACCESS'
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%%{HTTP:Authorization}]
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %%{REQUEST_FILENAME} !-f
+RewriteCond %%{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+# END WordPress
+HTACCESS
+chown apache:apache /var/www/html/.htaccess
+chmod 644 /var/www/html/.htaccess
+sudo -u apache wp rewrite structure '/%postname%/' --path=/var/www/html
+sudo -u apache wp rewrite flush --hard --path=/var/www/html
+
+echo "WordPress friendly URLs configured."
+
 
 echo "Installing University Results Portal plugin..."
 
-URP_COMMIT="8c512b66c3cc8a20ceee266ddd53d5188a092250"
+URP_COMMIT="f807d15" # Commit containing initialize_access_codes.php
 URP_DIR=/var/www/html/wp-content/plugins/university-results
 URP_TMP=$(mktemp -d /tmp/urp-install.XXXXXX)
 
@@ -133,6 +159,11 @@ install -m 755 \
   "$URP_TMP/source/initialize_demo_data.sh" \
   /opt/university-results/initialize_demo_data.sh
 
+# Keep access-code initialization script outside the public web root.
+install -m 644 \
+  "$URP_TMP/source/initialize_access_codes.php" \
+  /opt/university-results/initialize_access_codes.php
+
 echo "Demo initialization files prepared."
 
 rm -rf "$URP_TMP"
@@ -148,3 +179,13 @@ echo "Initializing University Results Portal demo data..."
 
 echo "University Results Portal demo data initialized successfully."
 
+
+# Initialize access codes only after student records have been imported.
+# The PHP script stores codes in Secrets Manager and hashes in MySQL;
+# it must never print plaintext access codes.
+echo "Initializing student access codes..."
+sudo -u apache wp eval-file \
+  /opt/university-results/initialize_access_codes.php \
+  --path=/var/www/html
+
+echo "Student access codes initialized successfully."
