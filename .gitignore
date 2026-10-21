@@ -3,6 +3,8 @@
 *.tfstate
 *.tfstate.*
 *.tfplan
+tfplan
+tfplan.*
 crash.log
 crash.*.log
 
@@ -30,3 +32,18 @@ terraform.rc
 .DS_Store
 .vscode/
 .idea/
+
+# Local Docker development (University Results Portal plugin)
+local-dev/.env
+!local-dev/.env.example
+wordpress-plugin/university-results/vendor/
+wordpress-plugin/university-results/composer.lock
+.phpunit.cache/
+.phpunit.result.cache
+dist/
+local-dev/access-codes.csv
+
+# Generated student access codes and temporary secrets
+*access-codes*.csv
+*access-codes*.json
+*.secret.json

@@ -1,0 +1,71 @@
+.urp-admin .urp-card {
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	padding: 4px 20px 16px;
+	margin: 16px 0;
+	max-width: 900px;
+}
+
+.urp-admin .urp-search {
+	margin: 16px 0 8px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+}
+
+.urp-admin .urp-count {
+	color: #646970;
+}
+
+.urp-admin .urp-inline-form {
+	display: inline;
+	margin-left: 8px;
+}
+
+.urp-admin .urp-delete {
+	color: #b32d2e;
+}
+
+.urp-admin .urp-error-list {
+	list-style: disc;
+	margin-left: 20px;
+}
+
+.urp-admin .urp-preview-error td {
+	background: #fcf0f1;
+}
+
+.urp-admin .urp-codes {
+	font-family: monospace;
+	font-size: 14px;
+}
+
+.urp-admin .urp-new-input {
+	margin-top: 6px;
+	display: block;
+}
+
+.urp-admin .urp-new-subject {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.urp-admin .urp-new-subject .urp-new-input {
+	display: inline-block;
+}
+
+/* Must come after the display rules above, or hidden boxes would still show. */
+.urp-admin .urp-new-input[hidden] {
+	display: none;
+}
+
+.urp-admin .urp-student-status {
+	margin: 6px 0 0;
+	color: #00703c;
+}
+
+.urp-admin .urp-student-status.urp-status-error {
+	color: #b32d2e;
+}

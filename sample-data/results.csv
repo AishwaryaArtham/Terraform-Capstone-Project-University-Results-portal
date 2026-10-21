@@ -1,0 +1,49 @@
+reg_no,term,subject_code,subject_name,marks,max_marks
+UNI2026001,2026-S1,MA101,Engineering Mathematics I,45,100
+UNI2026001,2026-S1,PH101,Engineering Physics,70,100
+UNI2026001,2026-S1,EE101,Basic Electrical Engineering,94,100
+UNI2026001,2026-S1,ME101,Engineering Graphics and Design,95,100
+UNI2026001,2026-S2,MA102,Engineering Mathematics II,43,100
+UNI2026001,2026-S2,CY102,Engineering Chemistry,58,100
+UNI2026001,2026-S2,CE102,Engineering Mechanics,83,100
+UNI2026001,2026-S2,CS102,Programming for Problem Solving,92,100
+UNI2026002,2026-S1,MA101,Engineering Mathematics I,86,100
+UNI2026002,2026-S1,PH101,Engineering Physics,60,100
+UNI2026002,2026-S1,EE101,Basic Electrical Engineering,30,100
+UNI2026002,2026-S1,ME101,Engineering Graphics and Design,40,100
+UNI2026002,2026-S2,MA102,Engineering Mathematics II,44,100
+UNI2026002,2026-S2,CY102,Engineering Chemistry,66,100
+UNI2026002,2026-S2,CE102,Engineering Mechanics,42,100
+UNI2026002,2026-S2,CS102,Programming for Problem Solving,87,100
+UNI2026003,2026-S1,MA101,Engineering Mathematics I,31,100
+UNI2026003,2026-S1,PH101,Engineering Physics,92,100
+UNI2026003,2026-S1,EE101,Basic Electrical Engineering,70,100
+UNI2026003,2026-S1,ME101,Engineering Graphics and Design,56,100
+UNI2026003,2026-S2,MA102,Engineering Mathematics II,80,100
+UNI2026003,2026-S2,CY102,Engineering Chemistry,62,100
+UNI2026003,2026-S2,CE102,Engineering Mechanics,74,100
+UNI2026003,2026-S2,CS102,Programming for Problem Solving,75,100
+UNI2026004,2026-S1,MA101,Engineering Mathematics I,78,100
+UNI2026004,2026-S1,PH101,Engineering Physics,95,100
+UNI2026004,2026-S1,EE101,Basic Electrical Engineering,39,100
+UNI2026004,2026-S1,ME101,Engineering Graphics and Design,73,100
+UNI2026004,2026-S2,MA102,Engineering Mathematics II,41,100
+UNI2026004,2026-S2,CY102,Engineering Chemistry,98,100
+UNI2026004,2026-S2,CE102,Engineering Mechanics,67,100
+UNI2026004,2026-S2,CS102,Programming for Problem Solving,66,100
+UNI2026005,2026-S1,MA101,Engineering Mathematics I,88,100
+UNI2026005,2026-S1,PH101,Engineering Physics,48,100
+UNI2026005,2026-S1,EE101,Basic Electrical Engineering,69,100
+UNI2026005,2026-S1,ME101,Engineering Graphics and Design,33,100
+UNI2026005,2026-S2,MA102,Engineering Mathematics II,77,100
+UNI2026005,2026-S2,CY102,Engineering Chemistry,76,100
+UNI2026005,2026-S2,CE102,Engineering Mechanics,89,100
+UNI2026005,2026-S2,CS102,Programming for Problem Solving,84,100
+UNI2026006,2026-S1,MA101,Engineering Mathematics I,35,100
+UNI2026006,2026-S1,PH101,Engineering Physics,41,100
+UNI2026006,2026-S1,EE101,Basic Electrical Engineering,81,100
+UNI2026006,2026-S1,ME101,Engineering Graphics and Design,93,100
+UNI2026006,2026-S2,MA102,Engineering Mathematics II,44,100
+UNI2026006,2026-S2,CY102,Engineering Chemistry,84,100
+UNI2026006,2026-S2,CE102,Engineering Mechanics,94,100
+UNI2026006,2026-S2,CS102,Programming for Problem Solving,92,100

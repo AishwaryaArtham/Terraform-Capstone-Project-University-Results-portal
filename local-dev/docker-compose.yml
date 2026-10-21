@@ -1,0 +1,77 @@
+# Local development environment for the University Results Portal plugin.
+# Runs entirely on your computer; it does not use or need AWS.
+#
+#   docker compose up -d            start WordPress + MySQL
+#   ./setup.sh                      install WordPress, activate plugin, load sample data
+#   ./smoke-test.sh                 end-to-end checks
+#   docker compose run --rm tests   PHP unit tests
+#   docker compose down             stop (data kept); add -v to wipe everything
+
+name: urp-local
+
+x-db-env: &db-env
+  WORDPRESS_DB_HOST: db
+  WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+  WORDPRESS_DB_USER: ${MYSQL_USER}
+  WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+
+services:
+  db:
+    image: mysql:8.0.43
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  wordpress:
+    image: wordpress:6.8.3-php8.2-apache
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${WORDPRESS_PORT:-8080}:80"
+    environment:
+      <<: *db-env
+      # Local-only debugging; never enable WP_DEBUG_DISPLAY on AWS.
+      WORDPRESS_DEBUG: "1"
+    volumes:
+      - wp_data:/var/www/html
+      - ../wordpress-plugin/university-results:/var/www/html/wp-content/plugins/university-results
+
+  # WP-CLI, used by setup.sh and smoke-test.sh. Runs as uid 33 to match the
+  # web server's www-data user so file permissions stay consistent.
+  wpcli:
+    image: wordpress:cli-2.12.0-php8.2
+    profiles: ["tools"]
+    user: "33:33"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      <<: *db-env
+      HOME: /tmp
+    volumes:
+      - wp_data:/var/www/html
+      - ../wordpress-plugin/university-results:/var/www/html/wp-content/plugins/university-results
+      - ../sample-data:/sample-data:ro
+
+  # PHPUnit tests for the plugin's plain-PHP classes (no WordPress needed).
+  tests:
+    image: composer:2.8.12
+    profiles: ["tools"]
+    working_dir: /app
+    volumes:
+      - ../wordpress-plugin/university-results:/app
+    command: sh -c "composer install --no-interaction --no-progress --quiet && vendor/bin/phpunit"
+
+volumes:
+  db_data:
+  wp_data:
