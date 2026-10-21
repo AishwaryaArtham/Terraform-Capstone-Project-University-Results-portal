@@ -144,4 +144,5 @@ MySQL 8). Use `wp eval` or the `docker compose exec db mysql …` command above 
 
 It doesn't test the ALB, private subnets, RDS, Secrets Manager, the EC2 bootstrap, HTTPS (local is HTTP
 only, like the current ALB), or behaviour across multiple instances. See
-[`docs/plugin-deployment.md`](../docs/plugin-deployment.md) for moving the plugin to AWS.
+[`docs/developer-guide.md`](../docs/developer-guide.md) for how the plugin is deployed to AWS, and
+[`docs/plugin-deployment.md`](../docs/plugin-deployment.md) for manual tasks on a running instance.
